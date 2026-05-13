@@ -1,37 +1,52 @@
 {
-	"name": "better-auth-wx-miniprogram",
-	"version": "0.1.0",
-	"description": "WeChat Miniprogram login plugin for Better Auth",
-	"type": "module",
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
-		},
-		"./client": {
-			"types": "./dist/client.d.ts",
-			"import": "./dist/client.js",
-			"require": "./dist/client.cjs"
-		},
-		"./miniprogram": "./src/miniprogram/auth.js"
-	},
-	"scripts": {
-		"build": "tsup",
-		"dev": "tsup --watch",
-		"test": "bun test",
-		"typecheck": "tsc --noEmit"
-	},
-	"peerDependencies": {
-		"better-auth": ">=1.0.0"
-	},
-	"devDependencies": {
-		"@types/bun": "latest",
-		"better-auth": "^1.0.0",
-		"tsup": "^8.0.0",
-		"typescript": "^5.0.0"
-	}
+  "name": "better-auth-wx-miniprogram",
+  "version": "0.1.0",
+  "description": "Better Auth plugin for WeChat Miniprogram login — silent sign-in via wx.login(), profile updates, and phone number decryption",
+  "type": "module",
+  "license": "MIT",
+  "author": "wan-kong",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wan-kong/better-auth-wx-miniprogram"
+  },
+  "keywords": [
+    "better-auth",
+    "wechat",
+    "miniprogram",
+    "微信小程序",
+    "auth",
+    "login",
+    "wx-miniprogram"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js",
+      "require": "./dist/client.cjs"
+    },
+    "./miniprogram": "./src/miniprogram/auth.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "better-auth": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "better-auth": "^1.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
 }
