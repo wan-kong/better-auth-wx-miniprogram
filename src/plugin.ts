@@ -1,14 +1,14 @@
-import { z } from "zod";
+import type { BetterAuthPlugin } from "better-auth";
 import {
+	APIError,
 	createAuthEndpoint,
 	sessionMiddleware,
-	APIError,
 } from "better-auth/api";
-import type { BetterAuthPlugin } from "better-auth";
-import type { WxMiniprogramOptions } from "./types";
+import * as z from "zod";
 import { code2Session } from "./lib/code2session";
 import { decryptPhoneNumber } from "./lib/decrypt";
 import { WxErrors } from "./lib/errors";
+import type { WxMiniprogramOptions } from "./types";
 
 const PROVIDER_ID = "wx-miniprogram" as const;
 
@@ -142,9 +142,9 @@ export function wxMiniprogram(options: WxMiniprogramOptions) {
 
 						// 通过 anonymous plugin 建立匿名用户
 						// anonymous plugin 负责：生成占位 email、创建 user、建立 session
-						const anonResult = (await (
-							internalAdapter.signInAnonymous
-						)(ctx.request)) as {
+						const anonResult = (await internalAdapter.signInAnonymous(
+							ctx.request,
+						)) as {
 							user: { id: string };
 							session: { token: string };
 						};

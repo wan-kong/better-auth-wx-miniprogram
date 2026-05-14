@@ -1,6 +1,6 @@
-import { createDecipheriv } from "crypto";
-import { WxErrors } from "./errors";
+import { createDecipheriv } from "node:crypto";
 import type { WxDecryptPhoneResponse } from "../types";
+import { WxErrors } from "./errors";
 
 /**
  * 使用 session_key 解密微信加密数据（如手机号）。

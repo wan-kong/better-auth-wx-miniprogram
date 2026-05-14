@@ -1,6 +1,7 @@
 export { wxMiniprogram } from "./plugin";
 export type {
-	WxMiniprogramOptions,
-	WxLoginResponse,
 	WxDecryptPhoneResponse,
+	WxLoginResponse,
+	WxMiniprogramOptions,
 } from "./types";
+export { wxFetchAdapter } from "./wx-fetch-adapter";

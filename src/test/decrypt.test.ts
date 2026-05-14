@@ -1,6 +1,6 @@
-import { test, expect } from "bun:test";
-import { createCipheriv, randomBytes } from "crypto";
-import { decryptWxData, decryptPhoneNumber } from "../src/lib/decrypt";
+import { expect, test } from "bun:test";
+import { createCipheriv, randomBytes } from "node:crypto";
+import { decryptPhoneNumber, decryptWxData } from "../lib/decrypt";
 
 function encryptTestData(
 	data: Record<string, unknown>,

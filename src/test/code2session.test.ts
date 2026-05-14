@@ -1,5 +1,5 @@
-import { test, expect, mock } from "bun:test";
-import { code2Session } from "../src/lib/code2session";
+import { expect, mock, test } from "bun:test";
+import { code2Session } from "../lib/code2session";
 
 const baseOptions = {
 	appId: "test-app-id",

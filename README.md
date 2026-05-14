@@ -10,8 +10,8 @@
 - **Profile updates** — nickname & avatar via WeChat's `chooseAvatar` / `nickname` components
 - **Phone decryption** — decrypt `getPhoneNumber` encrypted data with stored `session_key`
 - **Rate limiting** — built-in rate limits on login (20/min) and phone decryption (10/min)
-- **Client plugin** — typed `$fetch`-based client for web/Node.js
-- **Miniprogram SDK** — zero-dependency `createWxAuth()` for the miniprogram side
+- **Client plugin** — typed Better Auth client actions for miniprogram usage
+- **wx-fetch-adapter** — use `wx.request` as Better Auth client's fetch layer
 
 ## Installation
 
@@ -46,31 +46,53 @@ export const auth = betterAuth({
 ### Miniprogram (WeChat app)
 
 ```js
-import { createWxAuth } from "better-auth-wx-miniprogram/miniprogram";
+import { createAuthClient } from "better-auth/client";
+import { anonymousClient } from "better-auth/client/plugins";
+import { wxMiniprogramClient } from "better-auth-wx-miniprogram/client";
+import { wxFetchAdapter } from "better-auth-wx-miniprogram/wx-fetch-adapter";
 
-const auth = createWxAuth({
-  baseUrl: "https://your-server.com/api/auth",
+const authClient = createAuthClient({
+  baseURL: "https://your-server.com/api/auth",
+  disableDefaultFetchPlugins: true,
+  fetchOptions: {
+    customFetchImpl: wxFetchAdapter,
+    onRequest(context) {
+      const token = wx.getStorageSync("__ba_token__");
+      if (token) {
+        context.options.headers = {
+          ...context.options.headers,
+          Authorization: `Bearer ${token}`,
+        };
+      }
+    },
+  },
+  plugins: [anonymousClient(), wxMiniprogramClient()],
 });
 
-// Silent sign-in
-const { token, user } = await auth.signIn();
+const code = await new Promise((resolve, reject) =>
+  wx.login({ success: (r) => resolve(r.code), fail: reject })
+);
+const { data } = await authClient.wxMiniprogram.signIn({ code });
+wx.setStorageSync("__ba_token__", data.token);
 
-// Update profile after user picks avatar/nickname
-await auth.updateProfile({ nickName: "Alice", avatarUrl: "https://..." });
+await authClient.wxMiniprogram.updateProfile({
+  nickName: "Alice",
+  avatarUrl: "https://...",
+});
 
-// Decrypt phone number from getPhoneNumber button
-const { phoneNumber } = await auth.decryptPhone({ encryptedData, iv });
-
-// Sign out
-auth.signOut();
+const { data: phone } = await authClient.wxMiniprogram.decryptPhone({
+  encryptedData,
+  iv,
+});
 ```
 
 ### Client (web/Node.js with Better Auth client)
 
 ```ts
 import { wxMiniprogramClient } from "better-auth-wx-miniprogram/client";
+import { wxFetchAdapter } from "better-auth-wx-miniprogram/wx-fetch-adapter";
 
-const { data } = await authClient.signIn({ code: "wx-login-code" });
+const { data } = await authClient.wxMiniprogram.signIn({ code: "wx-login-code" });
 // data: { token: string; user: User }
 ```
 

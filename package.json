@@ -32,20 +32,29 @@
       "import": "./dist/client.js",
       "require": "./dist/client.cjs"
     },
-    "./miniprogram": "./src/miniprogram/auth.js"
+    "./wx-fetch-adapter": {
+      "types": "./dist/wx-fetch-adapter.d.ts",
+      "import": "./dist/wx-fetch-adapter.js",
+      "require": "./dist/wx-fetch-adapter.cjs"
+    }
   },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "bun test",
+    "format": "biome format . --write",
+    "lint:fix": "biome check . --fix --unsafe",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
+    "@better-fetch/fetch": ">=1.0.0",
     "better-auth": ">=1.0.0"
   },
   "devDependencies": {
+    "@better-fetch/fetch": "^1.0.0",
     "@types/bun": "latest",
     "better-auth": "^1.0.0",
+    "@biomejs/biome": "2.4.4",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   }

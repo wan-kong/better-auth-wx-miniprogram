@@ -1,5 +1,5 @@
-import { test, expect, mock } from "bun:test";
-import { wxMiniprogram } from "../src/plugin";
+import { expect, mock, test } from "bun:test";
+import { wxMiniprogram } from "../plugin";
 
 function createInputCtx(overrides: Record<string, unknown> = {}) {
 	return {

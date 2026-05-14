@@ -1,25 +1,23 @@
-import type { BetterAuthClientPlugin } from "better-auth/client";
 import type { BetterFetchOption } from "@better-fetch/fetch";
+import type { BetterAuthClientPlugin } from "better-auth/client";
 import type { wxMiniprogram } from "./plugin";
-import type { WxLoginResponse, WxDecryptPhoneResponse } from "./types";
+import type { WxDecryptPhoneResponse, WxLoginResponse } from "./types";
 
 /**
  * 微信小程序 Better Auth Client Plugin
  *
- * 用于 Web/Node 端调用插件端点。
- * 小程序端请使用 better-auth-wx-miniprogram/miniprogram 工具函数。
+ * 与 wxFetchAdapter 配合，在小程序端使用 createAuthClient 直接调用插件端点。
  */
 export function wxMiniprogramClient() {
 	return {
 		id: "wx-miniprogram",
 
 		$InferServerPlugin: {} as ReturnType<typeof wxMiniprogram>,
-
 		getActions: ($fetch: Function) => ({
 			signIn: async (
 				data: { code: string },
 				fetchOptions?: BetterFetchOption,
-			): Promise<{ data: WxLoginResponse | null; error: Error | null }> => {
+			): Promise<{ data: WxLoginResponse | null; error: unknown }> => {
 				return $fetch("/wx-miniprogram/login", {
 					method: "POST",
 					body: data,
@@ -43,7 +41,7 @@ export function wxMiniprogramClient() {
 				fetchOptions?: BetterFetchOption,
 			): Promise<{
 				data: WxDecryptPhoneResponse | null;
-				error: Error | null;
+				error: unknown;
 			}> => {
 				return $fetch("/wx-miniprogram/decrypt-phone", {
 					method: "POST",

@@ -10,8 +10,8 @@
 - **资料更新** — 配合微信 `chooseAvatar` / `nickname` 组件更新昵称和头像
 - **手机号解密** — 使用存储的 `session_key` 解密 `getPhoneNumber` 返回的加密数据
 - **频率限制** — 内置限流：登录 20 次/分钟，手机号解密 10 次/分钟
-- **客户端插件** — 为 Web/Node.js 提供类型安全的 `$fetch` 客户端
-- **小程序 SDK** — 零依赖的 `createWxAuth()`，专供小程序端使用
+- **客户端插件** — 面向小程序的 Better Auth 类型安全客户端 action
+- **wx-fetch-adapter** — 将 `wx.request` 作为 Better Auth client 的 fetch 层
 
 ## 安装
 
@@ -46,31 +46,53 @@ export const auth = betterAuth({
 ### 小程序端（微信小程序）
 
 ```js
-import { createWxAuth } from "better-auth-wx-miniprogram/miniprogram";
+import { createAuthClient } from "better-auth/client";
+import { anonymousClient } from "better-auth/client/plugins";
+import { wxMiniprogramClient } from "better-auth-wx-miniprogram/client";
+import { wxFetchAdapter } from "better-auth-wx-miniprogram/wx-fetch-adapter";
 
-const auth = createWxAuth({
-  baseUrl: "https://your-server.com/api/auth",
+const authClient = createAuthClient({
+  baseURL: "https://your-server.com/api/auth",
+  disableDefaultFetchPlugins: true,
+  fetchOptions: {
+    customFetchImpl: wxFetchAdapter,
+    onRequest(context) {
+      const token = wx.getStorageSync("__ba_token__");
+      if (token) {
+        context.options.headers = {
+          ...context.options.headers,
+          Authorization: `Bearer ${token}`,
+        };
+      }
+    },
+  },
+  plugins: [anonymousClient(), wxMiniprogramClient()],
 });
 
-// 静默登录
-const { token, user } = await auth.signIn();
+const code = await new Promise((resolve, reject) =>
+  wx.login({ success: (r) => resolve(r.code), fail: reject })
+);
+const { data } = await authClient.wxMiniprogram.signIn({ code });
+wx.setStorageSync("__ba_token__", data.token);
 
-// 用户选择头像/昵称后更新资料
-await auth.updateProfile({ nickName: "Alice", avatarUrl: "https://..." });
+await authClient.wxMiniprogram.updateProfile({
+  nickName: "Alice",
+  avatarUrl: "https://...",
+});
 
-// 从 getPhoneNumber 按钮解密手机号
-const { phoneNumber } = await auth.decryptPhone({ encryptedData, iv });
-
-// 退出登录
-auth.signOut();
+const { data: phone } = await authClient.wxMiniprogram.decryptPhone({
+  encryptedData,
+  iv,
+});
 ```
 
 ### Web/Node.js 客户端
 
 ```ts
 import { wxMiniprogramClient } from "better-auth-wx-miniprogram/client";
+import { wxFetchAdapter } from "better-auth-wx-miniprogram/wx-fetch-adapter";
 
-const { data } = await authClient.signIn({ code: "wx-login-code" });
+const { data } = await authClient.wxMiniprogram.signIn({ code: "wx-login-code" });
 // data: { token: string; user: User }
 ```
 
