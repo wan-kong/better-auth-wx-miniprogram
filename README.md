@@ -1,6 +1,6 @@
 # better-auth-wx-miniprogram
 
-[English](./README.md) | [中文](./README.zh-CN.md)
+English | [中文](./README.zh-CN.md)
 
 [Better Auth](https://better-auth.com) plugin for WeChat Miniprogram (微信小程序) login. Provides silent sign-in via `wx.login()`, profile updates, and phone number decryption — all with zero extra user-facing prompts.
 
@@ -98,11 +98,11 @@ const { data } = await authClient.wxMiniprogram.signIn({ code: "wx-login-code" }
 
 ## API Endpoints
 
-| Endpoint | Method | Auth | Description |
-| --- | --- | --- | --- |
-| `/wx-miniprogram/login` | POST | — | Exchange `wx.login()` code for session |
-| `/wx-miniprogram/update-profile` | POST | Bearer | Update nickname & avatar |
-| `/wx-miniprogram/decrypt-phone` | POST | Bearer | Decrypt phone number from `getPhoneNumber` |
+| Endpoint                         | Method | Auth   | Description                                |
+| -------------------------------- | ------ | ------ | ------------------------------------------ |
+| `/wx-miniprogram/login`          | POST   | —      | Exchange `wx.login()` code for session     |
+| `/wx-miniprogram/update-profile` | POST   | Bearer | Update nickname & avatar                   |
+| `/wx-miniprogram/decrypt-phone`  | POST   | Bearer | Decrypt phone number from `getPhoneNumber` |
 
 ## Options
 

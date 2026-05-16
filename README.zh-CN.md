@@ -1,6 +1,6 @@
 # better-auth-wx-miniprogram
 
-[English](./README.md) | [中文](./README.zh-CN.md)
+[English](./README.md) | 中文
 
 [Better Auth](https://better-auth.com) 微信小程序登录插件。提供基于 `wx.login()` 的静默登录、用户资料更新、手机号解密等功能，全程无需用户额外操作。
 
@@ -98,11 +98,11 @@ const { data } = await authClient.wxMiniprogram.signIn({ code: "wx-login-code" }
 
 ## API 端点
 
-| 端点 | 方法 | 认证 | 说明 |
-| --- | --- | --- | --- |
-| `/wx-miniprogram/login` | POST | — | 用 `wx.login()` code 换取 session |
-| `/wx-miniprogram/update-profile` | POST | Bearer | 更新昵称和头像 |
-| `/wx-miniprogram/decrypt-phone` | POST | Bearer | 解密 `getPhoneNumber` 获取手机号 |
+| 端点                             | 方法 | 认证   | 说明                              |
+| -------------------------------- | ---- | ------ | --------------------------------- |
+| `/wx-miniprogram/login`          | POST | —      | 用 `wx.login()` code 换取 session |
+| `/wx-miniprogram/update-profile` | POST | Bearer | 更新昵称和头像                    |
+| `/wx-miniprogram/decrypt-phone`  | POST | Bearer | 解密 `getPhoneNumber` 获取手机号  |
 
 ## 配置项
 
