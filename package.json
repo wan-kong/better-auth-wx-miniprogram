@@ -1,6 +1,6 @@
 {
   "name": "better-auth-wx-miniprogram",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Better Auth plugin for WeChat Miniprogram login — silent sign-in via wx.login(), profile updates, and phone number decryption",
   "type": "module",
   "license": "MIT",
@@ -47,6 +47,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "prepack": "bun run build",
+    "bumpp": "bumpp",
     "test": "bun test",
     "format": "biome format . --write",
     "lint:fix": "biome check . --fix --unsafe",
@@ -57,6 +58,7 @@
   },
   "devDependencies": {
     "@better-fetch/fetch": "^1.1.21 ",
+    "bumpp": "11.1.0",
     "@types/bun": "latest",
     "better-auth": "^1.0.0",
     "@biomejs/biome": "2.4.4",
